@@ -13,14 +13,14 @@ const quoteApiRouter = express.Router();
 app.use('/api', quoteApiRouter );
 
 
-//endpoint Get Random Quote
+//Endpoint: get random quote
 quoteApiRouter.get( '/quotes/random', (req, res, next) => {
 
     const elem = getRandomElement(quotes);
     res.status(200).send({quote : elem})
 });
 
-//endpoint Get all quotes
+//Endpoint: get all quotes
 quoteApiRouter.get( '/quotes', (req, res, next) => {
     const person = req.query.person;
 
@@ -34,6 +34,7 @@ quoteApiRouter.get( '/quotes', (req, res, next) => {
     else res.status(200).send({quotes : quotes});
 });
 
+//Endpoint: post a quote
 quoteApiRouter.post( '/quotes', (req, res, next) => {
     const person = req.query.person;
     const quote = req.query.quote;
