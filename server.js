@@ -14,23 +14,37 @@ app.use('/api', quoteApiRouter );
 
 
 //endpoint Get Random Quote
-quoteApiRouter.get( '/quote/random', (req, res, next) => {
+quoteApiRouter.get( '/quotes/random', (req, res, next) => {
 
     const elem = getRandomElement(quotes);
-    res.status(200).send(elem)
+    res.status(200).send({quote : elem})
 });
 
 //endpoint Get all quotes
 quoteApiRouter.get( '/quotes', (req, res, next) => {
     const person = req.query.person;
 
+
     if (person) {
        // find index of person
-       const index =  quotes.findIndex( quote => quote.person === person );
-       res.status(200).send( quotes[index]);
+       const quotesFiltered = quotes.filter( quote => quote.person === person );
+
+       res.status(200).send( {quotes : quotesFiltered } );
     }
-    else res.status(200).send(quotes);
+    else res.status(200).send({quotes : quotes});
 });
+
+quoteApiRouter.post( '/quotes', (req, res, next) => {
+    const person = req.query.person;
+    const quote = req.query.quote;
+
+    if (person && quote) {
+        quotes.push( { person: person, quote: quote} );
+        res.status(200).send({quote : { person: person, quote: quote} });
+    }
+    else res.status(400).send();
+});
+
 
 
 app.listen(PORT);
